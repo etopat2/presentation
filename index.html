@@ -78,7 +78,7 @@
                 <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin:0.5rem 0;">
                     <div class="stat-card"><span class="label">Part A</span><div class="value" style="font-size:1rem;">Is avg sales below <strong>$200</strong>?</div></div>
                     <div class="stat-card"><span class="label">Part B</span><div class="value" style="font-size:1rem;">Difference between <strong>Consumer</strong> & <strong>Corporate</strong>?</div></div>
-                    <div class="stat-card"><span class="label">Part C</span><div class="value" style="font-size:1rem;">Did sales <strong>increase</strong> after discount?</div></div>
+                    <div class="stat-card"><span class="label">Part C</span><div class="value" style="font-size:1rem;">Did sales <strong>increase</strong> after discount? compared at product-category level.</div></div>
                 </div>
                 <div style="background:#f1f5f9; padding:0.8rem 1.2rem; border-radius:1rem;">
                     <strong>Variables:</strong> Sales (USD), Customer Segment, Product Category, Discount, Profit
@@ -116,7 +116,10 @@
                     <tr><td><span class="badge badge-red">H₁</span></td><td>μ &lt; 200</td><td>Average sales is <strong>less than $200</strong></td></tr>
                 </table>
                 <div style="background:#eef2ff; padding:0.6rem 1rem; border-radius:0.8rem;">
-                    <i class="fas fa-arrow-left" style="color:#3b82f6;"></i> <strong>One-tailed (left-tailed)</strong> — manager suspects lower sales only.
+                    <p><strong>Plain English:</strong></p>
+                    <p>The null hypothesis states that the average sales per order are <strong>USD 200</strong>.</p>
+                    <p>The alternative hypothesis states that the average sales per order are less than <strong>USD 200</strong>.</p>
+                    <i class="fas fa-arrow-left" style="color:#3b82f6;"></i> <strong>One-tailed (left-tailed)</strong> — manager suspects lower sales only, not merely different from USD 200.
                 </div>
             </div>
         `,
