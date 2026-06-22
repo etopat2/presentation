@@ -1,0 +1,391 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #1e293b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            padding: clamp(0.5rem, 2vh, 2rem) clamp(0.5rem, 1vw, 1rem);
+        }
+
+        .presentation-container {
+            max-width: 1300px;
+            width: 100%;
+            height: 100%;
+            max-height: calc(100vh - clamp(1rem, 4vh, 4rem));
+            max-height: calc(100dvh - clamp(1rem, 4vh, 4rem));
+            background: #f8fafc;
+            border-radius: 2.5rem;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            padding: clamp(0.8rem, 2vh, 2rem) clamp(0.8rem, 2vw, 2rem) clamp(0.7rem, 1.5vh, 1.5rem);
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        /* slide viewport */
+        .slide-viewport {
+            background: white;
+            border-radius: 2rem;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03), 0 12px 30px rgba(0,0,0,0.08);
+            padding: clamp(1rem, 3vh, 2.5rem) clamp(1rem, 3vw, 3rem);
+            flex: 1 1 auto;
+            min-height: 0;
+            overflow: hidden;
+            position: relative;
+            transition: opacity 0.2s;
+        }
+
+        /* navigation */
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: clamp(0.7rem, 2vh, 1.8rem);
+            gap: 1rem;
+            flex-wrap: wrap;
+            flex: 0 0 auto;
+        }
+
+        .nav-controls button {
+            background: white;
+            border: none;
+            padding: 0.6rem 1.6rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #0f172a;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+            cursor: pointer;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .nav-controls button:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            transform: scale(1.01);
+        }
+
+        .nav-controls button:active {
+            transform: scale(0.97);
+        }
+
+        .nav-controls button:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+            filter: grayscale(0.6);
+        }
+
+        .slide-counter {
+            font-weight: 500;
+            color: #334155;
+            background: #f1f5f9;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .slide-content {
+            animation: fadeSlide 0.25s ease;
+        }
+
+        @keyframes fadeSlide {
+            0% { opacity: 0.6; transform: translateY(6px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* slide typography */
+        .slide-title {
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .slide-sub {
+            font-size: 1rem;
+            color: #475569;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+            background: #f8fafc;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .slide-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .grid-3col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.2rem;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            padding: 1.2rem 1.4rem;
+            border-radius: 1.2rem;
+            border: 1px solid #eef2f6;
+        }
+
+        .stat-card .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-top: 0.2rem;
+        }
+
+        .stat-card .note {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 0.3rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        table th {
+            background: #f1f5f9;
+            text-align: left;
+            padding: 0.7rem 0.9rem;
+            font-weight: 600;
+            color: #1e293b;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        table td {
+            padding: 0.6rem 0.9rem;
+            border-bottom: 1px solid #eef2f6;
+            color: #1e293b;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e4a8a;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            margin-right: 0.3rem;
+        }
+
+        .badge-green {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-red {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-orange {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .img-placeholder {
+            background: #f1f5f9;
+            border-radius: 1rem;
+            padding: 1rem 0.5rem;
+            text-align: center;
+            border: 1px dashed #cbd5e1;
+            color: #475569;
+            font-size: 0.9rem;
+        }
+
+        .img-placeholder i {
+            font-size: 2rem;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .img-placeholder img {
+            max-width: 100%;
+            border-radius: 0.8rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1.2rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .text-center { text-align: center; }
+        .text-muted { color: #475569; }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, #e2e8f0, transparent);
+            margin: 1rem 0;
+        }
+
+        .univ-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 0.5rem;
+        }
+
+        .univ-header .uni {
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+        }
+
+        .univ-header .uni small {
+            font-weight: 400;
+            color: #475569;
+            font-size: 0.85rem;
+        }
+
+        .member-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem 1.8rem;
+            font-size: 0.9rem;
+            background: #f8fafc;
+            padding: 0.8rem 1.2rem;
+            border-radius: 1rem;
+        }
+
+        .member-list span {
+            color: #1e293b;
+        }
+
+        .member-list .id {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .conclusion-box {
+            background: #f0f9ff;
+            border-left: 6px solid #3b82f6;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+        }
+
+        .conclusion-box strong {
+            color: #0f172a;
+        }
+
+        @media (max-width: 900px) {
+            .slide-viewport {
+                padding: 1.8rem;
+            }
+            .grid-2col, .grid-3col {
+                grid-template-columns: 1fr;
+            }
+            .slide-title {
+                font-size: 1.8rem;
+            }
+            .presentation-container {
+                padding: 1rem;
+            }
+            .nav-controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .slide-viewport {
+                padding: 1.2rem;
+                min-height: 0;
+            }
+            .slide-title {
+                font-size: 1.4rem;
+            }
+            .member-list {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+        }
+
+        @media (max-height: 720px) {
+            .slide-title {
+                font-size: 1.7rem;
+                margin-bottom: 0.35rem;
+            }
+            .slide-sub {
+                margin-bottom: 0.8rem;
+            }
+            .slide-body {
+                gap: 0.8rem;
+            }
+            .stat-card {
+                padding: 0.85rem 1rem;
+            }
+            .stat-card .value {
+                font-size: 1.2rem;
+            }
+            table {
+                font-size: 0.82rem;
+            }
+            table th,
+            table td {
+                padding: 0.45rem 0.65rem;
+            }
+            .img-placeholder {
+                padding: 0.7rem 0.5rem;
+            }
+        }
