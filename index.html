@@ -193,7 +193,12 @@
                     <tr><td><span class="badge badge-red">H₁</span></td><td>μ<sub>Consumer</sub> ≠ μ<sub>Corporate</sub></td><td>Different average sales</td></tr>
                 </table>
                 <div style="background:#eef2ff; padding:0.6rem 1rem; border-radius:0.8rem;">
+                    <p><strong>Plain English:</strong> </p>
+                    <p>The null hypothesis states that Consumer and Corporate customers have equal average sales. </p>
+                    <p>The alternative hypothesis states that their average sales are different.</p>
+
                     <i class="fas fa-arrows-left-right" style="color:#3b82f6;"></i> <strong>Two-tailed</strong> — no direction predicted.
+                    <p>This is a two-tailed test because the question asks whether there is a difference, without predicting in advance which segment has higher sales.</p>
                 </div>
             </div>
         `,
@@ -209,7 +214,7 @@
                     <tr><td>Homogeneity (Levene)</td><td><span class="badge badge-green">✅ p = 0.585</span></td><td>Equal variances assumed</td></tr>
                 </table>
                 <div class="conclusion-box" style="border-left-color:#22c55e;">
-                    <i class="fas fa-check-circle" style="color:#22c55e;"></i> Levene's test p = 0.585 &gt; 0.05 → equal variances.
+                    <i class="fas fa-check-circle" style="color:#22c55e;"></i> Levene's test p = 0.585 &gt; 0.05 → equal variances Assumed.
                 </div>
             </div>
         `,
@@ -257,8 +262,15 @@
                     <strong>Decision:</strong> Fail to reject H₀ &nbsp;|&nbsp; <span class="badge badge-green">✅ No significant difference</span>
                 </div>
                 <p><strong>Business:</strong> Consumer ($1,857.86) vs Corporate ($1,787.68) — difference of $70.18 is <strong>not significant</strong> (p = 0.539).</p>
+                <p>However, the independent-samples t-test showed that this difference was not statistically significant, t(4,723) = 0.62, p = 0.54. 
+                    The 95% confidence interval ranged from USD -153.52 to USD 293.88, which includes zero. 
+                    Therefore, we fail to reject the null hypothesis.
+                </p>
                 <div style="background:#f8fafc; padding:0.8rem 1.2rem; border-radius:1rem;">
-                    <i class="fas fa-bullhorn" style="color:#3b82f6;"></i> <strong>Recommendation:</strong> Don't base marketing decisions solely on segment identity. Consider additional variables.
+                    <i class="fas fa-bullhorn" style="color:#3b82f6;"></i> <strong>Recommendation:</strong> 
+                    <p>Don't base marketing decisions solely on segment identity. 
+                    Consider additional variables such as region, product sub-category, order quantity, discount level, and profit margin when designing segment-specific strategies.
+                    </p>
                 </div>
             </div>
         `,
@@ -275,7 +287,10 @@
                     <tr><td><span class="badge badge-red">H₁</span></td><td>μ<sub>diff</sub> &gt; 0</td><td>Sales <strong>increased</strong></td></tr>
                 </table>
                 <div style="background:#eef2ff; padding:0.6rem 1rem; border-radius:0.8rem;">
+                    <p>The null hypothesis states that the discount campaign did not increase average sales at product-category level.</p>
+                    <p>The alternative hypothesis states that average sales increased after discounting.</p>
                     <i class="fas fa-arrow-right" style="color:#3b82f6;"></i> <strong>One-tailed (right-tailed)</strong> — specific increase question.
+                    <p>This is a one-tailed right-tailed test because the business question specifically asks whether sales increased after the discount campaign.</p>
                 </div>
             </div>
         `,
@@ -306,7 +321,7 @@
                     <tr><td>Normality of differences</td><td><span class="badge badge-green">✅ p = 0.332</span></td><td>Shapiro-Wilk W = 0.883, p = 0.332</td></tr>
                 </table>
                 <div class="conclusion-box" style="border-left-color:#22c55e;">
-                    <i class="fas fa-check-circle" style="color:#22c55e;"></i> Normality <strong>not rejected</strong> (p = 0.332).
+                    <i class="fas fa-check-circle" style="color:#22c55e;"></i> Normality <strong>not rejected</strong> (p = 0.332) > 0.05, so normality is not rejected.
                 </div>
                 <div class="img-placeholder"><img src="images/assumption.png" style="height:14rem;"/> Shapiro-Wilk output for differences</div>
             </div>
@@ -342,8 +357,12 @@
                     <strong>Decision:</strong> Fail to reject H₀ &nbsp;|&nbsp; <span class="badge badge-green">✅ No evidence of increase</span>
                 </div>
                 <p><strong>Business:</strong> Mean difference is <strong>negative</strong> (-$142.79), but not significant. Discount campaign <strong>did not</strong> significantly increase sales at category level.</p>
+                <p>The mean difference was USD -142.79, meaning that average sales after discounting were lower, not higher, than average sales with no discount when compared at product-category level.</p>
                 <div style="background:#f8fafc; padding:0.8rem 1.2rem; border-radius:1rem;">
-                    <i class="fas fa-bullhorn" style="color:#3b82f6;"></i> <strong>Recommendation:</strong> Review discount strategy; investigate if discounts are applied to low-performing products or reducing profit.
+                    <i class="fas fa-bullhorn" style="color:#3b82f6;"></i> <strong>Recommendation:</strong> Review discount strategy;
+                    <p>The retail chain should review its discount strategy and investigate whether discounts are being applied to low-performing products, whether discounts reduce profit, 
+                        and whether the campaign should be targeted more carefully by product sub-category or region.
+                    </p>
                 </div>
             </div>
         `,
