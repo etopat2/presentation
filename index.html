@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Superstore Sales · Group 5 Presentation</title>
+    <!-- Font Awesome Icons (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+    
+</head>
+<body>
+<div class="presentation-container">
+    <div class="slide-viewport" id="slideViewport">
+        <div class="slide-content" id="slideContent">
+            <!-- dynamic content rendered by JS -->
+        </div>
+    </div>
+
+    <div class="nav-controls">
+        <button id="prevBtn"><i class="fas fa-chevron-left"></i> Previous</button>
+        <span class="slide-counter" id="slideCounter">1 / 23</span>
+        <button id="nextBtn">Next <i class="fas fa-chevron-right"></i></button>
+    </div>
+</div>
+
+<script>
+    const today = new Date().toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    // -------- SLIDES DATA (fully matches the presentation) --------
+    const slides = [
+        // 1: TITLE
+        () => `
+            <div class="univ-header">
+                <span class="uni">VICTORIA UNIVERSITY <small>· Probability and Statistics</small></span>
+            </div>
+            <div style="display:flex; flex-direction:column; justify-content:center; min-height:360px; text-align:center; padding:0.5rem 0;">
+                <h1 style="font-size:2.8rem; font-weight:800; color:#0f172a; letter-spacing:-0.02em; margin-bottom:0.5rem;">Superstore Sales<br>Statistical Analysis</h1>
+                <p style="font-size:1.3rem; color:#334155; font-weight:500;">QUESTION FIVE (GROUP 5)</p>
+                <div style="margin:1.5rem 0 0.8rem 0; background:#f1f5f9; padding:1rem 1.8rem; border-radius:2rem; display:inline-block; align-self:center;">
+                    <i class="fas fa-users" style="color:#3b82f6; margin-right:0.6rem;"></i> Group 5
+                </div>
+                <div class="member-list" style="justify-content:center; background:transparent; padding:0;">
+                    <span><strong>Etomet Patrick</strong> <span class="id">VU-BBC-2411-1019-DAY</span></span>
+                    <span><strong>Bilal Abubakar</strong> <span class="id">VU-BAD-2603-0214-DAY</span></span>
+                    <span><strong>Salma Josephine</strong> <span class="id">VU-BBC-2503-0477-DAY</span></span>
+                    <span><strong>Michelange Butu</strong> <span class="id">VU-BBC-2503-1859-DAY</span></span>
+                    <span><strong>Najjemba Sarah Leon</strong> <span class="id">VU-BBC-2503-2377-DAY</span></span>
+                </div>
+                <div style="margin-top:1rem; color:#475569;"><i class="far fa-calendar-alt"></i> ${today}</div>
+            </div>
+        `,
+
+        // 2: AGENDA
+        () => `
+            <div class="slide-title"><i class="fas fa-list-ul" style="color:#3b82f6;"></i> Presentation Overview</div>
+            <div class="slide-body" style="margin-top:1rem;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                    <div class="stat-card"><span class="label">1</span><div class="value" style="font-size:1.1rem;">Introduction & Business Scenario</div></div>
+                    <div class="stat-card"><span class="label">2</span><div class="value" style="font-size:1.1rem;">Dataset Overview</div></div>
+                    <div class="stat-card"><span class="label">3</span><div class="value" style="font-size:1.1rem;">Part A: One-Sample t-Test</div><div class="note">Testing if average sales &lt; $200</div></div>
+                    <div class="stat-card"><span class="label">4</span><div class="value" style="font-size:1.1rem;">Part B: Independent t-Test</div><div class="note">Consumer vs. Corporate segments</div></div>
+                    <div class="stat-card"><span class="label">5</span><div class="value" style="font-size:1.1rem;">Part C: Paired t-Test</div><div class="note">Sales before vs. after discount</div></div>
+                    <div class="stat-card"><span class="label">6</span><div class="value" style="font-size:1.1rem;">Conclusions & Recommendations</div><div class="note">Limitations & future research</div></div>
+                </div>
+            </div>
+        `,
+
+        // 3: INTRODUCTION
+        () => `
+            <div class="slide-title"><i class="fas fa-store" style="color:#3b82f6;"></i> Introduction & Business Scenario</div>
+            <div class="slide-body">
+                <p><strong>Business Context:</strong> A retail chain is analyzing sales performance using the Superstore Sales dataset.</p>
+                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin:0.5rem 0;">
+                    <div class="stat-card"><span class="label">Part A</span><div class="value" style="font-size:1rem;">Is avg sales below <strong>$200</strong>?</div></div>
+                    <div class="stat-card"><span class="label">Part B</span><div class="value" style="font-size:1rem;">Difference between <strong>Consumer</strong> & <strong>Corporate</strong>?</div></div>
+                    <div class="stat-card"><span class="label">Part C</span><div class="value" style="font-size:1rem;">Did sales <strong>increase</strong> after discount?</div></div>
+                </div>
+                <div style="background:#f1f5f9; padding:0.8rem 1.2rem; border-radius:1rem;">
+                    <strong>Variables:</strong> Sales (USD), Customer Segment, Product Category, Discount, Profit
+                </div>
+            </div>
+        `,
+
+        // 4: DATASET OVERVIEW
+        () => `
+            <div class="slide-title"><i class="fas fa-database" style="color:#3b82f6;"></i> Dataset Overview</div>
+            <div class="slide-body">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;">
+                    <div class="stat-card"><span class="label">Valid Records</span><div class="value">8,399</div></div>
+                    <div class="stat-card"><span class="label">Mean Sales</span><div class="value">$1,775.88</div></div>
+                    <div class="stat-card"><span class="label">Std Deviation</span><div class="value">$3,585.05</div></div>
+                    <div class="stat-card"><span class="label">Range</span><div class="value" style="font-size:1.1rem;">$2.24 – $89,061.05</div></div>
+                </div>
+                <div class="img-placeholder" style="margin-top:0.2rem;">
+                    <i class="fas fa-chart-bar"></i> <span style="font-weight:500;">Key variables used per part</span><br>
+                    <span style="font-size:0.9rem;">Part A: Sales · Part B: Sales, Segment · Part C: Sales, Discount, Category</span>
+                </div>
+                <div class="text-muted" style="font-size:0.9rem;"><i class="fas fa-check-circle" style="color:#22c55e;"></i> Cleaned dataset: 8,399 valid observations</div>
+            </div>
+        `,
+
+        // 5: PART A – HYPOTHESIS
+        () => `
+            <div class="slide-title"><i class="fas fa-calculator" style="color:#3b82f6;"></i> Part A: One-Sample t-Test</div>
+            <div class="slide-sub">Hypothesis Formulation</div>
+            <div class="slide-body">
+                <p><strong>Research Question:</strong> Is average sales per order <strong>below</strong> the claimed $200?</p>
+                <table>
+                    <tr><th>Hypothesis</th><th>Mathematical</th><th>Plain English</th></tr>
+                    <tr><td><span class="badge">H₀</span></td><td>μ = 200</td><td>Average sales is <strong>$200</strong></td></tr>
+                    <tr><td><span class="badge badge-red">H₁</span></td><td>μ &lt; 200</td><td>Average sales is <strong>less than $200</strong></td></tr>
+                </table>
+                <div style="background:#eef2ff; padding:0.6rem 1rem; border-radius:0.8rem;">
+                    <i class="fas fa-arrow-left" style="color:#3b82f6;"></i> <strong>One-tailed (left-tailed)</strong> — manager suspects lower sales only.
+                </div>
+            </div>
+        `,
+
+        // 6: PART A – ASSUMPTIONS
+        () => `
+            <div class="slide-title"><i class="fas fa-check-double" style="color:#3b82f6;"></i> Part A: Assumption Checking</div>
+            <div class="slide-body">
+                <table>
+                    <tr><th>Assumption</th><th>Result</th><th>Interpretation</th></tr>
+                    <tr><td>Continuous data</td><td><span class="badge badge-green">✅ Satisfied</span></td><td>Sales is numerical</td></tr>
+                    <tr><td>Independence</td><td><span class="badge badge-green">✅ Assumed</span></td><td>Each row = separate transaction</td></tr>
+                    <tr><td>Normality</td><td><span class="badge badge-orange">⚠️ Not normal</span></td><td>W = NaN, p = "", but <strong>n = 8,399</strong> robust</td></tr>
+                </table>
+                <div class="conclusion-box">
+                    <i class="fas fa-lightbulb" style="color:#3b82f6;"></i> <strong>Central Limit Theorem:</strong> Large sample size makes t-test robust.
+                </div>
+                <div class="img-placeholder"><img src="images/sapiro-wilsk.png" Style="height:Auto; width:Auto"> <span style="font-weight:500;">Shapiro-Wilk output (p&lt;.001)</span></div>
+            </div>
+        `,
+
+        // 7: PART A – RESULTS
+        () => `
+            <div class="slide-title"><i class="fas fa-table" style="color:#3b82f6;"></i> Part A: Results</div>
+            <div class="slide-body">
+                <table>
+                    <tr><th>Statistic</th><th>Value</th></tr>
+                    <tr><td>Sample size (n)</td><td>8,399</td></tr>
+                    <tr><td>Mean Sales</td><td><strong>$1,775.88</strong></td></tr>
+                    <tr><td>Std Deviation</td><td>$3,585.05</td></tr>
+                    <tr><td>t-statistic</td><td>40.28</td></tr>
+                    <tr><td>df</td><td>8,398</td></tr>
+                    <tr><td>p-value (one-tailed)</td><td><span class="badge badge-red">1.000</span></td></tr>
+                    <tr><td>95% CI</td><td>$1,499.20 – $1,652.56</td></tr>
+                </table>
+                <div class="img-placeholder"><img src="images/one_sample_t-test.png" /> JASP output: One-Sample t-Test</div>
+                <div class="text-muted" style="font-size:0.9rem;"><i class="fas fa-info-circle"></i> Mean is far above $200.</div>
+            </div>
+        `,
+
+        // 8: PART A – INTERPRETATION
+        () => `
+            <div class="slide-title"><i class="fas fa-comment-dots" style="color:#3b82f6;"></i> Part A: Interpretation</div>
+            <div class="slide-body">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                    <div class="stat-card"><span class="label">t-statistic</span><div class="value" style="font-size:1.4rem;">40.28</div></div>
+                    <div class="stat-card"><span class="label">p-value</span><div class="value" style="font-size:1.4rem;">1.000</div></div>
+                </div>
+                <div class="conclusion-box" style="border-left-color:#22c55e;">
+                    <strong>Decision:</strong> Fail to reject H₀ &nbsp;|&nbsp; <span class="badge badge-green">✅ No evidence sales &lt; $200</span>
+                </div>
+                <p><strong>Business:</strong> Sample mean ($1,775.88) is <strong>much higher</strong> than $200. The manager's suspicion is not supported.</p>
+                <div style="background:#f8fafc; padding:0.8rem 1.2rem; border-radius:1rem;">
+                    <i class="fas fa-bullhorn" style="color:#3b82f6;"></i> <strong>Recommendation:</strong> Don't lower sales expectations, but investigate high variability.
+                </div>
+            </div>
+        `,
+
+        // 9: PART B – HYPOTHESIS
+        () => `
+            <div class="slide-title"><i class="fas fa-users-between-lines" style="color:#3b82f6;"></i> Part B: Independent t-Test</div>
+            <div class="slide-sub">Consumer vs. Corporate Segments</div>
+            <div class="slide-body">
+                <p><strong>Research Question:</strong> Do Consumer and Corporate average sales differ?</p>
+                <table>
+                    <tr><th>Hypothesis</th><th>Mathematical</th><th>Plain English</th></tr>
+                    <tr><td><span class="badge">H₀</span></td><td>μ<sub>Consumer</sub> = μ<sub>Corporate</sub></td><td>Equal average sales</td></tr>
+                    <tr><td><span class="badge badge-red">H₁</span></td><td>μ<sub>Consumer</sub> ≠ μ<sub>Corporate</sub></td><td>Different average sales</td></tr>
+                </table>
+                <div style="background:#eef2ff; padding:0.6rem 1rem; border-radius:0.8rem;">
+                    <i class="fas fa-arrows-left-right" style="color:#3b82f6;"></i> <strong>Two-tailed</strong> — no direction predicted.
+                </div>
+            </div>
+        `,
+
+        // 10: PART B – ASSUMPTIONS
+        () => `
+            <div class="slide-title"><i class="fas fa-check-double" style="color:#3b82f6;"></i> Part B: Assumption Checking</div>
+            <div class="slide-body">
+                <table>
+                    <tr><th>Assumption</th><th>Result</th><th>Interpretation</th></tr>
+                    <tr><td>Independence</td><td><span class="badge badge-green">✅ Satisfied</span></td><td>Different segments</td></tr>
+                    <tr><td>Normality</td><td><span class="badge badge-orange">⚠️ Not normal</span></td><td>p &lt; .001, but large samples</td></tr>
+                    <tr><td>Homogeneity (Levene)</td><td><span class="badge badge-green">✅ p = 0.585</span></td><td>Equal variances assumed</td></tr>
+                </table>
+                <div class="conclusion-box" style="border-left-color:#22c55e;">
+                    <i class="fas fa-check-circle" style="color:#22c55e;"></i> Levene's test p = 0.585 &gt; 0.05 → equal variances.
+                </div>
+            </div>
+        `,
+
+        // 11: PART B – DESCRIPTIVES
+        () => `
+            <div class="slide-title"><i class="fas fa-chart-simple" style="color:#3b82f6;"></i> Part B: Descriptive Statistics</div>
+            <div class="slide-body">
+                <table>
+                    <tr><th>Segment</th><th>n</th><th>Mean Sales</th><th>Std Dev</th></tr>
+                    <tr><td><strong>Consumer</strong></td><td>1,649</td><td>$1,857.86</td><td>$4,112.20</td></tr>
+                    <tr><td><strong>Corporate</strong></td><td>3,076</td><td>$1,787.68</td><td>$3,522.12</td></tr>
+                </table>
+                <div class="stat-card" style="background:#f1f5f9;"><span class="label">Difference</span><div class="value" style="font-size:1.3rem;">$70.18 (Consumer – Corporate)</div></div>
+                <div class="img-placeholder"><img src="images/descriptive_stat.png" style="height:14rem;"/> JASP descriptive output</div>
+            </div>
+        `,
+
+        // 12: PART B – RESULTS
+        () => `
+            <div class="slide-title"><i class="fas fa-table" style="color:#3b82f6;"></i> Part B: Results</div>
+            <div class="slide-body">
+                <table>
+                    <tr><th>Statistic</th><th>Value</th></tr>
+                    <tr><td>Mean difference</td><td>$70.18</td></tr>
+                    <tr><td>t-statistic</td><td>0.62</td></tr>
+                    <tr><td>df</td><td>4,723</td></tr>
+                    <tr><td>p-value (two-tailed)</td><td><span class="badge badge-orange">0.539</span></td></tr>
+                    <tr><td>95% CI</td><td>-$153.52 to $293.88</td></tr>
+                    <tr><td>Cohen's d</td><td>0.02</td></tr>
+                </table>
+                <div class="img-placeholder"><img src="images/independent_sample_t-test.png" style="height:14rem;"/> JASP independent t-test output</div>
+            </div>
+        `,
+
+        // 13: PART B – INTERPRETATION
+        () => `
+            <div class="slide-title"><i class="fas fa-comment-dots" style="color:#3b82f6;"></i> Part B: Interpretation</div>
+            <div class="slide-body">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                    <div class="stat-card"><span class="label">t-statistic</span><div class="value" style="font-size:1.4rem;">0.62</div></div>
+                    <div class="stat-card"><span class="label">p-value</span><div class="value" style="font-size:1.4rem;">0.539</div></div>
+                </div>
+                <div class="conclusion-box" style="border-left-color:#22c55e;">
+                    <strong>Decision:</strong> Fail to reject H₀ &nbsp;|&nbsp; <span class="badge badge-green">✅ No significant difference</span>
+                </div>
+                <p><strong>Business:</strong> Consumer ($1,857.86) vs Corporate ($1,787.68) — difference of $70.18 is <strong>not significant</strong> (p = 0.539).</p>
+                <div style="background:#f8fafc; padding:0.8rem 1.2rem; border-radius:1rem;">
+                    <i class="fas fa-bullhorn" style="color:#3b82f6;"></i> <strong>Recommendation:</strong> Don't base marketing decisions solely on segment identity. Consider additional variables.
+                </div>
+            </div>
+        `,
+
+        // 14: PART C – HYPOTHESIS
+        () => `
+            <div class="slide-title"><i class="fas fa-tags" style="color:#3b82f6;"></i> Part C: Paired t-Test</div>
+            <div class="slide-sub">Sales Before vs. After Discount Campaign</div>
+            <div class="slide-body">
+                <p><strong>Research Question:</strong> Did sales <strong>increase</strong> after discount campaign?</p>
+                <table>
+                    <tr><th>Hypothesis</th><th>Mathematical</th><th>Plain English</th></tr>
+                    <tr><td><span class="badge">H₀</span></td><td>μ<sub>diff</sub> = 0</td><td>No increase in sales</td></tr>
+                    <tr><td><span class="badge badge-red">H₁</span></td><td>μ<sub>diff</sub> &gt; 0</td><td>Sales <strong>increased</strong></td></tr>
+                </table>
+                <div style="background:#eef2ff; padding:0.6rem 1rem; border-radius:0.8rem;">
+                    <i class="fas fa-arrow-right" style="color:#3b82f6;"></i> <strong>One-tailed (right-tailed)</strong> — specific increase question.
+                </div>
+            </div>
+        `,
+
+        // 15: PART C – DIFFERENCE VARIABLE
+        () => `
+            <div class="slide-title"><i class="fas fa-arrows-spin" style="color:#3b82f6;"></i> Part C: Difference Variable</div>
+            <div class="slide-body">
+                <p><code>Difference = Mean Sales (Discount &gt; 0) – Mean Sales (Discount = 0)</code></p>
+                <table>
+                    <tr><th>Category</th><th>No Discount</th><th>Discount &gt; 0</th><th>Difference</th></tr>
+                    <tr><td>Furniture</td><td>$2,915.69</td><td>$3,012.78</td><td><span class="badge badge-green">+$97.08</span></td></tr>
+                    <tr><td>Office Supplies</td><td>$827.69</td><td>$812.81</td><td><span class="badge badge-red">-$14.88</span></td></tr>
+                    <tr><td>Technology</td><td>$3,356.10</td><td>$2,845.52</td><td><span class="badge badge-red">-$510.58</span></td></tr>
+                </table>
+                <div class="img-placeholder"><img src="images/diff_variables_creation.png" style="height:14rem;"/> JASP difference variable creation</div>
+            </div>
+        `,
+
+        // 16: PART C – ASSUMPTIONS
+        () => `
+            <div class="slide-title"><i class="fas fa-check-double" style="color:#3b82f6;"></i> Part C: Assumption Checking</div>
+            <div class="slide-body">
+                <table>
+                    <tr><th>Assumption</th><th>Result</th><th>Interpretation</th></tr>
+                    <tr><td>Paired observations</td><td><span class="badge badge-green">✅ Satisfied</span></td><td>Same categories compared</td></tr>
+                    <tr><td>Continuous difference</td><td><span class="badge badge-green">✅ Satisfied</span></td><td>Sales in USD</td></tr>
+                    <tr><td>Normality of differences</td><td><span class="badge badge-green">✅ p = 0.332</span></td><td>Shapiro-Wilk W = 0.883, p = 0.332</td></tr>
+                </table>
+                <div class="conclusion-box" style="border-left-color:#22c55e;">
+                    <i class="fas fa-check-circle" style="color:#22c55e;"></i> Normality <strong>not rejected</strong> (p = 0.332).
+                </div>
+                <div class="img-placeholder"><img src="images/assumption.png" style="height:14rem;"/> Shapiro-Wilk output for differences</div>
+            </div>
+        `,
+
+        // 17: PART C – RESULTS
+        () => `
+            <div class="slide-title"><i class="fas fa-table" style="color:#3b82f6;"></i> Part C: Results</div>
+            <div class="slide-body">
+                <table>
+                    <tr><th>Statistic</th><th>Value</th></tr>
+                    <tr><td>Paired categories</td><td>3</td></tr>
+                    <tr><td>Mean difference</td><td><strong>-$142.79</strong></td></tr>
+                    <tr><td>Std deviation</td><td>$323.39</td></tr>
+                    <tr><td>t-statistic</td><td>-0.765</td></tr>
+                    <tr><td>df</td><td>2</td></tr>
+                    <tr><td>p-value (one-tailed)</td><td><span class="badge badge-orange">0.738</span></td></tr>
+                    <tr><td>95% CI</td><td>-$946.16 to $660.58</td></tr>
+                </table>
+                <div class="img-placeholder"><img src="images/paired_t-test.png" style="height:14rem;"/> JASP paired t-test output</div>
+            </div>
+        `,
+
+        // 18: PART C – INTERPRETATION
+        () => `
+            <div class="slide-title"><i class="fas fa-comment-dots" style="color:#3b82f6;"></i> Part C: Interpretation</div>
+            <div class="slide-body">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                    <div class="stat-card"><span class="label">t-statistic</span><div class="value" style="font-size:1.4rem;">-0.765</div></div>
+                    <div class="stat-card"><span class="label">p-value</span><div class="value" style="font-size:1.4rem;">0.738</div></div>
+                </div>
+                <div class="conclusion-box" style="border-left-color:#22c55e;">
+                    <strong>Decision:</strong> Fail to reject H₀ &nbsp;|&nbsp; <span class="badge badge-green">✅ No evidence of increase</span>
+                </div>
+                <p><strong>Business:</strong> Mean difference is <strong>negative</strong> (-$142.79), but not significant. Discount campaign <strong>did not</strong> significantly increase sales at category level.</p>
+                <div style="background:#f8fafc; padding:0.8rem 1.2rem; border-radius:1rem;">
+                    <i class="fas fa-bullhorn" style="color:#3b82f6;"></i> <strong>Recommendation:</strong> Review discount strategy; investigate if discounts are applied to low-performing products or reducing profit.
+                </div>
+            </div>
+        `,
+
+        // 19: OVERALL CONCLUSIONS
+        () => `
+            <div class="slide-title"><i class="fas fa-flag-checkered" style="color:#3b82f6;"></i> Overall Conclusions</div>
+            <div class="slide-body">
+                <table>
+                    <tr><th>Part</th><th>Analysis</th><th>Result</th><th>Business Implication</th></tr>
+                    <tr><td><span class="badge">A</span></td><td>One-Sample t-Test</td><td><span class="badge badge-green">❌ Not Supported</span></td><td>Sales <strong>not</strong> below $200; much higher</td></tr>
+                    <tr><td><span class="badge">B</span></td><td>Independent t-Test</td><td><span class="badge badge-green">❌ Not Supported</span></td><td><strong>No difference</strong> Consumer vs Corporate</td></tr>
+                    <tr><td><span class="badge">C</span></td><td>Paired t-Test</td><td><span class="badge badge-green">❌ Not Supported</span></td><td>Discount campaign <strong>not</strong> significantly effective</td></tr>
+                </table>
+                <div class="conclusion-box" style="border-left-color:#8b5cf6;">
+                    <i class="fas fa-gavel" style="color:#8b5cf6;"></i> <strong>Key Takeaway:</strong> At the 5% significance level, <strong>none</strong> of the manager's suspicions were supported.
+                </div>
+            </div>
+        `,
+
+        // 20: RECOMMENDATIONS
+        () => `
+            <div class="slide-title"><i class="fas fa-lightbulb" style="color:#f59e0b;"></i> Recommendations</div>
+            <div class="slide-body">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;">
+                    <div class="stat-card"><span class="label">1. Review Sales Expectations</span><div class="value" style="font-size:1rem;">Actual avg $1,775.88 far exceeds $200; investigate high variability.</div></div>
+                    <div class="stat-card"><span class="label">2. Re-evaluate Segment Strategies</span><div class="value" style="font-size:1rem;">No significant Consumer–Corporate difference; consider region, sub-category, discount.</div></div>
+                    <div class="stat-card"><span class="label">3. Optimize Discount Campaign</span><div class="value" style="font-size:1rem;">Discounts may not increase sales; review product-level impact & profit margins.</div></div>
+                    <div class="stat-card"><span class="label">4. Detailed Segmentation</span><div class="value" style="font-size:1rem;">Focus on sub-category, region, profitability — avoid broad assumptions.</div></div>
+                </div>
+            </div>
+        `,
+
+        // 21: LIMITATIONS
+        () => `
+            <div class="slide-title"><i class="fas fa-triangle-exclamation" style="color:#eab308;"></i> Limitations</div>
+            <div class="slide-body">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;">
+                    <div class="stat-card"><span class="label">Data Limitations</span>
+                        <ul style="margin-top:0.5rem; padding-left:1.2rem; color:#1e293b; font-size:1.3rem;">
+                            <li><strong>Highly skewed sales:</strong> The Sales variable is highly skewed with very large values, so extreme transactions may influence the mean.</li>
+                            <li><strong>Observational data → association ≠ causation:</strong> The dataset is observational, so statistical association should not be interpreted as direct causation.</li>
+                            <li>Part C: only <strong>3 categories</strong>: giving very low statistical power.</li>
+                        </ul>
+                    </div>
+                    <div class="stat-card"><span class="label">Analytical Limitations</span>
+                        <ul style="margin-top:0.5rem; padding-left:1.2rem; color:#1e293b; font-size:1.3rem; line-spacing:1.5;">
+                            <li><strong>"Discount=0" and "Discount>0" </strong> were treated as before and after campaign groups, but the dataset may not represent a true controlled before-after experiment.</li>
+                            <li><strong>Missing factors:</strong> Other important business factors such as order quantity, product sub-category, region, customer behaviour and seasonality were not included in the required tests.</li>
+                            <li><strong>Profit impact not directly tested,</strong> although discounts may increase sales volume while reducing profit margins.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `,
+
+      
+        // 22: THANK YOU
+        () => `
+            <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:320px; text-align:center;">
+                <div style="font-size:3.5rem; font-weight:700; color:#0f172a;">Thank You</div>
+                <div style="font-size:1.4rem; color:#475569; margin:0.5rem 0 1.5rem 0;">Questions?</div>
+                <div style="background:#f1f5f9; padding:1.2rem 2rem; border-radius:2rem; width:100%; max-width:700px;">
+                    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:0.5rem 2rem; font-size:0.9rem;">
+                        <span><strong>Etomet Patrick</strong> <span style="color:#64748b;">VU-BBC-2411-1019-DAY</span></span>
+                        <span><strong>Bilal Abubakar</strong> <span style="color:#64748b;">VU-BAD-2603-0214-DAY</span></span>
+                        <span><strong>Salma Josephine</strong> <span style="color:#64748b;">VU-BBC-2503-0477-DAY</span></span>
+                        <span><strong>Michelange Butu</strong> <span style="color:#64748b;">VU-BBC-2503-1859-DAY</span></span>
+                        <span><strong>Najjemba Sarah Leon</strong> <span style="color:#64748b;">VU-BBC-2503-2377-DAY</span></span>
+                    </div>
+                </div>
+                <div style="margin-top:1.5rem; color:#64748b; font-size:0.9rem;">Victoria University · Probability and Statistics · Group 5</div>
+            </div>
+        `
+    ];
+
+    // -------- NAVIGATION --------
+    let currentSlide = 0;
+    const total = slides.length;
+
+    const content = document.getElementById('slideContent');
+    const counter = document.getElementById('slideCounter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function renderSlide(index) {
+        content.innerHTML = slides[index]();
+        counter.textContent = `${index + 1} / ${total}`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === total - 1;
+        // re-trigger animation
+        content.style.animation = 'none';
+        requestAnimationFrame(() => {
+            content.style.animation = 'fadeSlide 0.25s ease';
+        });
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentSlide > 0) {
+            currentSlide--;
+            renderSlide(currentSlide);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentSlide < total - 1) {
+            currentSlide++;
+            renderSlide(currentSlide);
+        }
+    });
+
+    // keyboard support
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (currentSlide < total - 1) {
+                currentSlide++;
+                renderSlide(currentSlide);
+            }
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (currentSlide > 0) {
+                currentSlide--;
+                renderSlide(currentSlide);
+            }
+        }
+    });
+
+    // initial render
+    renderSlide(0);
+</script>
+</body>
+</html>
