@@ -19,7 +19,10 @@
 
     <div class="nav-controls">
         <button id="prevBtn"><i class="fas fa-chevron-left"></i> Previous</button>
-        <span class="slide-counter" id="slideCounter">1 / 23</span>
+        <div class="footer-actions">
+            <span class="slide-counter" id="slideCounter">1 / 23</span>
+            <button id="fullscreenBtn" type="button"><i class="fas fa-expand"></i> Fullscreen</button>
+        </div>
         <button id="nextBtn">Next <i class="fas fa-chevron-right"></i></button>
     </div>
 </div>
@@ -425,6 +428,8 @@
     const counter = document.getElementById('slideCounter');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const presentationContainer = document.querySelector('.presentation-container');
 
     function renderSlide(index) {
         content.innerHTML = slides[index]();
@@ -451,6 +456,28 @@
             renderSlide(currentSlide);
         }
     });
+
+    function updateFullscreenButton() {
+        const isFullscreen = Boolean(document.fullscreenElement);
+        fullscreenBtn.innerHTML = isFullscreen
+            ? '<i class="fas fa-compress"></i> Exit Fullscreen'
+            : '<i class="fas fa-expand"></i> Fullscreen';
+    }
+
+    if (!document.fullscreenEnabled) {
+        fullscreenBtn.disabled = true;
+        fullscreenBtn.title = 'Fullscreen is not available in this browser';
+    }
+
+    fullscreenBtn.addEventListener('click', async () => {
+        if (!document.fullscreenElement) {
+            await presentationContainer.requestFullscreen();
+        } else {
+            await document.exitFullscreen();
+        }
+    });
+
+    document.addEventListener('fullscreenchange', updateFullscreenButton);
 
     // keyboard support
     document.addEventListener('keydown', (e) => {
